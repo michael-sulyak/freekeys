@@ -4,4 +4,4 @@ FreeKeys CMS – специальный движок позволяющий со
 **[Установка](#initialization)**  
 
 ### Установка
-To utilize this class, first import MysqliDb.php into your project, and require it.
+To utilize this class, first import MysqliDb.php into your project, and require it. 
