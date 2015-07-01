@@ -1,0 +1,125 @@
+{% macro input(name, value, type, label, placeholder, help_text, pattern, required) %}
+<div class="form-group">
+	<label>{{ label }}</label>
+	<input {% if type != 'file' %}class="form-control"{% endif %} name="{{ name }}" {% if value %}value="{{ value }}"{% endif %} type="{{ type|default('text') }}" {% if placeholder %}placeholder="{{ placeholder }}"{% endif %} {% if pattern %}pattern="{{ pattern }}"{% endif %} {% if required %}required{% endif %}>
+	{% if help_text %}		
+		<p class="help-block">{{ help_text }}</p>
+	{% endif %}
+</div>
+{% endmacro %}
+
+{% macro text(name, value, rows, label, placeholder, help_text) %}
+<div class="form-group">
+	<label>{{ label }}</label>
+	<textarea class="form-control" name="{{ name }}" rows="{{ rows }}" placeholder="{{ placeholder }}">{{ value }}</textarea>
+	{% if help_text %}		
+		<p class="help-block">{{ help_text }}</p>
+	{% endif %}
+</div>
+{% endmacro %}
+
+{% macro select(name, value, label, help_text) %}
+<div class="form-group">
+	<label>{{ label }}</label>
+	<select class="form-control" name="{{ name }}">
+		{% for item in value %}
+        	<option {{ item['tag'] }} value="{{ item['value'] }}">{{ item['text'] }}</option>
+    	{% endfor %}
+	</select>
+	{% if help_text %}		
+		<p class="help-block">{{ help_text }}</p>
+	{% endif %}
+</div>
+{% endmacro %}
+
+{% macro button(name, value, type, size, block, disabled) %}
+<button name="{{ name }}" type="submit"
+class="btn btn-{{ type|default('default') }} {% if size %}btn-{{ size }}{% endif %}	{% if block %}btn-block{% endif %} {% if disabled %}disabled{% endif %}"
+>{{ value }}</button>
+{% endmacro %}
+
+
+{% macro panel_begin(name, size) %}
+<div class="col-lg-{{ size|default(12) }}">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			{{ name }}
+		</div>
+		<!-- /.panel-heading -->
+		<div class="panel-body">
+{% endmacro %}
+
+{% macro panel_end() %}
+		</div>
+	</div>
+</div>
+{% endmacro %}
+
+{% macro list_begin() %}
+<div class="list-group">
+{% endmacro %}
+
+{% macro list_end() %}
+</div>
+{% endmacro %}
+
+{% macro hyperlink_list(value, href) %}
+<a href="{{ href|default('#') }}" class="list-group-item">{{ value }}</a>
+{% endmacro %}
+
+{% macro hyperlink(value, href, type, size, block, disabled, list) %}
+<a href="{{ href|default('#') }}" class="btn btn-{{ type|default('default') }} {% if size %}btn-{{ size }}{% endif %}	{% if block %}btn-block{% endif %} {% if disabled %}disabled{% endif %}">{{ value }}</a>
+{% endmacro %}
+
+{% macro table(thread, tbody, type) %}
+<div class="table-responsive">
+	<table class="table {% for item in type %}table-{{ item }}{% endfor %}">
+		<thead>
+			<tr>
+			{% for item in thread %}						
+				<th>{{ item[1] }}</th>						
+			{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+		{% for item in tbody %}
+			<tr>
+				{% for item_head in thread %}
+					<td>{{ item[item_head[0]] }}</td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+<!-- /.table-responsive -->
+{% endmacro %}
+
+
+
+{% macro table_begin(thread, attributes) %}
+<div class="table-responsive">
+	<table class="table {% for item in attributes %}table-{{ item }}{% endfor %}">
+		<thead>
+			<tr>
+			{% for item in thread %}						
+				<th>{{ item }}</th>						
+			{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+{% endmacro %}
+
+{% macro table_tr(date) %}
+			<tr>
+			{% for item in date %}
+				<td>{{ item }}</td>
+			{% endfor %}
+			</tr>
+{% endmacro %}
+
+{% macro table_end() %}
+		</tbody>
+	</table>
+</div>
+{% endmacro %}

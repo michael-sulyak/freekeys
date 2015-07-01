@@ -1,0 +1,33 @@
+DirectoryIndex index.php
+
+RewriteEngine On
+
+# www
+RewriteCond %{HTTP_HOST} ^www\.(.*) [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+# index.php
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
+RewriteRule ^index\.php$ / [R=301,L]
+
+RewriteRule ^login/vk index.php?do=login&type=vk [L]
+RewriteRule ^register index.php?do=register [L]
+RewriteRule ^exit index.php?do=exit [L]
+RewriteRule ^profile/edit index.php?do=profile&action=edit [L]
+RewriteRule ^profile index.php?do=profile&action=view [L]
+RewriteRule ^messages index.php?do=messages [L]
+
+RewriteRule ^items/([^/]*)(/?)+$  index.php?do=items&category=$1 [L]
+RewriteRule ^item/([^/]*)(/?)+$  index.php?do=items&action=view&name=$1 [L]
+RewriteRule ^item/([^/]*)/tasks(/?)+$  index.php?do=items&action=tasks&name=$1 [L]
+RewriteRule ^ref/([^/]*)(/?)+$  index.php?do=items&action=ref&id=$1 [L]
+RewriteRule ^captcha.jpg includes/helper/captcha/image.php [L]
+
+RewriteRule ^404 index.php?do=404 [L]
+
+ErrorDocument 404 /404
+
+<filesMatch "config.json">
+Order Deny,Allow
+Deny from All
+</filesMatch>

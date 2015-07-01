@@ -1,0 +1,18 @@
+{
+	"module_name": "Auth",
+	"module_uri": "http://nextable.ru/",
+	"version": "0.01",
+	"description": "",
+	"author": "expert_m",
+	"author_uri": "http://nextable.ru/",
+	"used_modules": ["helper"],
+	"config": ["auth", "level", "user"],
+	"used_config": ["auth_online"],
+	"interface": [
+		{"auth": "login"},
+		{"auth": "logout"},
+		{"auth": "register"},
+		{"auth": "save_profile"},
+	],
+	"actions": "auth_end_init"
+} 

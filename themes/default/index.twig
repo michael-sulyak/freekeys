@@ -1,0 +1,63 @@
+{% extends 'base.twig' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+	{% if not auth %}
+		<!-- Jumbotron Header -->
+		<header class="jumbotron hero-spacer jumbotron-fk">
+			<h2>Добро пожаловать!</h2>
+			<p>Давно хотели получить ключ к своей любимой игре? Ждете пока она появится на распродаже в Steam?
+			Теперь Вы можете об этом забыть, ведь на нашем портале проходит раздача игр и Вы можете получить долгожданный ключ! Как? Все очень просто.
+			Зарегистрируйтесь на сайте и собирайте баллы. Набрав необходимое количество баллов Вы сможете обменять их на понравившуюся игру, и получить ключ на Ваш электронный адрес!</p>
+			<p><a class="btn btn-primary btn-lg" href="{{ url_base }}/register/" role="button">Зарегистрироваться!</a> или 
+			<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#auth">Войти</button></p>
+
+		</header>
+	{% else %}
+		<!-- Jumbotron Header -->
+		<header class="jumbotron hero-spacer jumbotron-fk">
+			<h2>Бесплатная раздача!</h2>
+			<p>Давно хотели получить ключ к своей любимой игре? Ждете пока она появится на распродаже в Steam?
+			Теперь Вы можете об этом забыть, ведь на нашем портале проходит раздача игр и Вы можете получить долгожданный ключ! Как? Все очень просто.
+			Зарегистрируйтесь на сайте и собирайте баллы. Набрав необходимое количество баллов Вы сможете обменять их на понравившуюся игру, и получить ключ на Ваш электронный адрес!</p>
+			<p><a class="btn btn-primary btn-lg" href="{{ url_base }}/items/" role="button">Список предметов</a></p>
+
+		</header>
+	{% endif %}
+	<hr>
+
+	<!-- Title -->
+	<div class="row">
+		<div class="col-lg-12">
+			<h3>Самые популярные</h3>
+		</div>
+	</div>
+	<!-- /.row -->
+
+	<!-- Page Features -->
+	<div class="row text-center">
+		{% set items = get_items({
+			'num': 4,
+			'column_name': 'views',
+			'order_by': 'desc'
+		}) %}
+		{% for item in items %}
+			<div class="col-md-3 col-sm-6">
+				<div class="thumbnail">
+					<a href="{{ url_base }}/item/{{ item['name'] }}/">
+						<img src="{% if item['image'] %}{{ item['image'] }}{% else %}http://placehold.it/800x500{% endif %}" alt="">
+					</a>
+					<div class="caption">
+						<h3><a href="{{ url_base }}/item/{{ item['name'] }}/">{{ item['full_name'] }}</a></h3>
+						<p>{{ item['short_description'] }}</p>
+						<p>
+							<a href="{{ url_base }}/item/{{ item['name'] }}/" class="btn btn-primary btn-block text-uppercase">Получить</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+	<!-- /.row -->
+{% endblock %}

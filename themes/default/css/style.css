@@ -1,0 +1,39 @@
+/*!
+ * Start Bootstrap - Small Business HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic&subset=latin,cyrillic);
+
+body {
+    padding-top: 70px; 
+    font-family: 'Open Sans', sans-serif;
+}
+
+footer {
+    padding: 30px 0;
+}
+
+.navbar-fk {
+    background-color: #2C3E50;
+    box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-inverse .navbar-brand {
+    color: #fff;    
+}
+
+.jumbotron-fk p {
+	font-size: 18px;
+}
+
+.key {
+	background: #DDDDDD;
+	color: #505050;
+	font-weight: bold;
+	font-size: 24px;
+	display: block;
+	text-align: center;	
+	padding: 20px;
+}

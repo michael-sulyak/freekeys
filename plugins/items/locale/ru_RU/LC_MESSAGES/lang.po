@@ -1,0 +1,58 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru_RU\n"
+"X-Generator: Poedit 1.8\n"
+
+msgid "Successfully added."
+msgstr "Успешно добавлено."
+
+msgid "Not added."
+msgstr "Не добавлено."
+
+msgid "Successfully saved."
+msgstr "Успешно сохранено"
+
+msgid "Error saving."
+msgstr "Ошибка при сохранении."
+
+msgid "Successfully removed."
+msgstr "Успешно удалено"
+
+msgid "Error removing."
+msgstr "Ошибка при удалении"
+
+msgid "Invalid ID."
+msgstr "Неверный ID."
+
+msgid "Unknown error."
+msgstr "Неизвестная ошибка."
+
+msgid "Your transition counted."
+msgstr "Твой переход засчитан."
+
+msgid "Item not found."
+msgstr "Предмет не найден."
+
+msgid "Not enough points."
+msgstr "Недостаточно поинтов."
+
+msgid "Did not do all tasks."
+msgstr "Некоторые задания не выполнены."
+
+msgid "Key not found."
+msgstr "Ключ не найден."
+
+msgid "ID%n did not \"Like\" or did not repost."
+msgstr "ID%n не поставил \"Мне нравится\" или не сделал репост."
+
+msgid "User is not found in the group."
+msgstr "Пользователь не найден в группе."

@@ -1,0 +1,37 @@
+{% extends 'base.twig' %}
+
+{% block title %}Задания{% endblock %}
+{% block content %}
+	<div class="row">
+		<div class="col-lg-3">			
+			{{ include('banner_1.twig') }}	
+		</div>
+		<div class="col-lg-6 text-center">
+			<h1 class="text-uppercase">Поздравляем! Вы получили "{{ item['full_name'] }}"</h1><br>
+
+			{% if key['key'] %}
+				<div class="key">{{ key['key'] }}</div>
+			{% elseif key['instruction'] %}
+				<h3>Инструкция по получению</h3>
+				{{ key['instruction'] }}
+			{% endif %}
+
+			{% if key['help'] %}
+				<br>
+				<h3>Дополнительная информация</h3>
+				{{ key['help'] }}
+			{% endif %}	
+
+			{% if key['inform'] %}
+				<br><br><b>Администратор проинформирован.<br>Скоро Ваш запрос будет обработан.</b>
+			{% endif %}	
+
+			<hr><b>Вам отправлено сообщение c копией данной информации.</b><br><br>
+			<a class="btn btn-primary" href="{{ url_base }}" role="button">Вернуться на главную страницу</a>
+		</div>
+
+		<div class="col-lg-3">			
+			{{ include('banner_2.twig') }}	
+		</div>
+	</div>	
+{% endblock %}

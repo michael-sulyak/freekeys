@@ -1,0 +1,83 @@
+{% extends 'base.twig' %}
+
+{% block title %}{{ item['full_name'] }}{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-lg-3">	
+			{{ include('banner_1.twig') }}	
+		</div>
+
+		<div class="col-lg-6 text-center">
+			<h1 class="text-uppercase">{{ item['full_name'] }}</h1>
+			<h3>Чтобы получить "{{ item['full_name'] }}" Вам нужно собрать {{ item['cost'] }} баллов!</h3><br>
+
+			{% if item['description'] %}<p>{{ item['description'] }}</p><br>{% endif %}
+
+			{% if auth %}		
+
+				{% if user['points'] >= item['cost'] %}
+					Поздравляем! Вы набрали нужное количество баллов!
+				{% else %}
+					Вы набрали {{ user['points'] }} баллов, осталось набрать ещё {{ item['cost'] }} баллов
+				{% endif %}
+
+				{% set progress = (user['points'] / item['cost']) * 100 %}	
+
+				<div class="progress" style="height: 50px">
+						<div class="progress-bar" role="progressbar" aria-valuenow="{{ progress|round }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress|round }}%">
+					</div>
+				</div>
+
+				<p class="refurl_p">Ваша персональная ссылка: <a href="{{ url_base }}/ref/{{ user['id'] }}/" target="_blank">{{ url_base }}/ref/{{ user['id'] }}/</a></p>
+
+				<p class="refurl_p" style="color: #AE1C1A">Не забывайте самостоятельно сокращать ссылку через сокращатели ссылок!</p>
+				{#
+				<input class="form-control"  type="text" value="{{ url_base }}/ref/{{ user['id'] }}/" readonly onclick="this.select()" />
+				#}
+				<input class="form-control" type="text" value="{{ shortener(url_base ~ 'ref/' ~ user['id'] ~ '/', 'clck.ru') }}" readonly onclick="this.select()" />
+				<p><small>Скопируйте эту ссылку <kbd>Ctrl</kbd> + <kbd>C</kbd></small></p>
+
+				<ul class="list-unstyled animated shake">
+					<li>Чтобы набрать нужное количество баллов, рассылайте эту ссылку в социальных сетях, отправляйте друзьям, оставляйте её на различных сайтах!</li>
+					<li>За каждый переход по ссылке, Вам будет начисляться 1 балл!</li>
+					<li>За каждую регистрацию по ссылке, Вам будет начисляться 2 балла!</li>
+				</ul>
+
+				<div class="alertna alert alert-danger">
+					<strong>Внимание!</strong>
+					Запрещено использовать любые способы и сервисы автоматической накрутки переходов!
+				</div>
+			{% endif %}
+
+			<span class="label label-default">ID: {{ item['id'] }}</span>
+			<span class="label label-default">Просмотров: {{ item['views'] }}</span>
+			<span class="label label-default">Роздано: {{ item['distributed'] }}</span>
+			{% set category = get_items_category(item['category_id']) %}
+			<span class="label label-default">Категория: {{ category['full_name'] }}</span>
+			{% set sum_keys = get_sum_keys(item['id']) %}
+			<span class="label label-default">Осталось: {{ sum_keys }}</span><br><br>
+
+			{% if auth %}
+				{% if user['points'] >= item['cost'] and sum_keys > 0 %}
+					<form role="form" method="POST">
+						<button name="key" type="submit" class="btn btn-success btn-lg btn-block">Получить</button>
+					</form>
+					<hr>
+				{% endif %}
+
+				{% if item['group_tasks_id'] %}
+					<a class="btn btn-warning" href="{{ url_base }}/item/{{ item['name'] }}/tasks/" role="button">Дополнительные задания</a>
+				{% endif %}
+				
+				<a class="btn btn-primary" href="{{ url_base }}" role="button">Вернуться на главную страницу</a>				
+			{% else %}		
+				<a class="btn btn-primary" href="{{ url_base }}/register/" role="button">Зарегистрироваться</a>
+			{% endif %}
+		</div>
+
+		<div class="col-lg-3">
+			{{ include('banner_2.twig') }}			
+		</div>
+	</div>
+{% endblock %}

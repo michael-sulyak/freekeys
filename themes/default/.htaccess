@@ -1,0 +1,3 @@
+<Files ~ "\.(php|twig)$"> 
+  deny from all
+</Files>

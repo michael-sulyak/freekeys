@@ -1,0 +1,42 @@
+{
+	"db_read_level": {
+		"user": {
+			"id": 0,
+			"date": 0,
+			"login": 0,
+			"email": 0,
+			"password": 10,
+			"last_visit": 0,
+			"user_level": 0,
+			"points": 0
+		},
+
+		"items_tasks": {
+			"id": 0,
+			"full_name": 0,
+			"instruction": 0,
+			"type": 0,
+			"parametrs": 0
+		},
+
+		"items_group_tasks": {
+			"id": 0,
+			"full_name": 0,
+			"description": 0,
+			"list": 0
+		}
+	},
+	
+	"db_write_level": {
+		"user": {
+			"id": 11,
+			"date": 11,
+			"login": 5,
+			"email": 5,
+			"password": 5,
+			"last_visit": 10,
+			"user_level": 10,
+			"points": 10
+		}
+	}
+}

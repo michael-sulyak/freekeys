@@ -1,0 +1,85 @@
+{% import 'forms.twig' as form %}
+{% extends 'base.twig' %}
+
+{% block title %}{{ 'Items'|t }}{% endblock %}
+{% block content %}
+	{% if get['action'] == 'add_item' %}
+		{{ form.panel_begin('Creating a item'|t) }}
+			<form role="form" method="POST">
+				{{ form.input('interface[items][add][0][full_name]', '', 'text', 'Name'|t) }}<br>
+				{{ form.input('interface[items][add][0][name]', '', 'text', 'Second name (identifier)'|t) }}<br>
+				{{ form.input('interface[items][add][0][image]', '', 'text', 'Link to image'|t) }}<br>
+				{{ form.input('interface[items][add][0][cost]', '', 'text', 'Cost'|t) }}<br>
+
+				<div class="form-group">
+					<label>{{ 'Category'|t }}</label>
+					<select class="form-control" name="interface[items][add][0][category_id]">
+						<option>---</option>
+						{% for category in get_items_categories() %}
+							<option value="{{ category['id'] }}">{{ category['full_name'] }}</option>
+						{% endfor %}
+					</select>
+				</div><br>
+
+				{{ form.text('interface[items][add][0][short_description]', '', 5, 'Short description'|t) }}<br>
+				{{ form.text('interface[items][add][0][description]', '', 5, 'Description'|t) }}<br>
+				{{ form.input('interface[items][add][0][group_tasks_id]', '', 'text', 'Group tasks ID'|t) }}<br>
+
+				{{ form.button('interface[items][add][0][run]', 'Add'|t, 'primary', 'lg', true) }}
+			</form>
+		{{ form.panel_end() }}
+	{% elseif get['action'] == 'edit_item' %}
+		{% set item = get_item({'id': get['id']}) %}
+		{% if item %}
+			{{ form.panel_begin('Edit item'|t) }}
+				<form role="form" method="POST">
+					<input type="hidden" name="interface[items][save][0][id]" value="{{ item['id'] }}">
+					<input type="hidden" name="interface[items][delete][0][id]" value="{{ item['id'] }}">
+					<input type="hidden" name="interface[items][delete][0][full_name]" value="{{ item['full_name'] }}">
+
+					{{ form.input('interface[items][save][0][full_name]', item['full_name'], 'text', 'Name'|t) }}<br>
+					{{ form.input('interface[items][save][0][name]', item['name'], 'text', 'Second name (identifier)'|t) }}<br>
+					{{ form.input('interface[items][save][0][image]', item['image'], 'text', 'Link to image'|t) }}<br>
+					{{ form.input('interface[items][save][0][cost]', item['cost'], 'text', 'Cost'|t) }}<br>
+
+					<div class="form-group">
+						<label>Category</label>
+						<select class="form-control" name="interface[items][save][0][category_id]">
+							<option>---</option>
+							{% for category in get_items_categories() %}
+								<option {% if category['id'] == item['category_id'] %}selected{% endif %} value="{{ category['id'] }}">{{ category['full_name'] }}</option>
+							{% endfor %}
+						</select>
+					</div><br>
+
+					{{ form.text('interface[items][save][0][short_description]', item['short_description'], 5, 'Short description'|t) }}<br>
+					{{ form.text('interface[items][save][0][description]', item['description'], 5, 'Description'|t) }}<br>
+					{{ form.input('interface[items][save][0][group_tasks_id]', item['group_tasks_id'], 'text', 'Group tasks ID'|t) }}<br>
+
+					{{ form.button('interface[items][save][0][run]', 'Save'|t, 'success', 'lg') }}
+					{{ form.button('interface[items][delete][0][run]', 'Delete'|t, 'danger', 'lg') }}
+				</form>
+			{{ form.panel_end() }}
+		{% endif %}
+	{% elseif get['action'] == 'list_items' %}
+		{{ form.panel_begin('List of items'|t) }}
+			{% set table_thread = ['ID'|t, 'Name'|t, 'Short description'|t, 'Cost'|t, 'Category'|t, ''] %}		
+			{% set table_attributes = ['striped'] %}
+
+			{{ form.table_begin(table_thread, table_attributes) }}
+				{% for item in get_items(10) %}
+					{% set table_date = [
+						item['id'],
+						item['full_name'],
+						item['short_description'],
+						item['cost'],
+						item['category_id'],
+						form.hyperlink('Edit'|t, '?do=items&amp;action=edit_item&amp;id=' ~ item['id'], none, none, true)
+					] %}
+
+					{{ form.table_tr(table_date) }}
+				{% endfor %}
+			{{ form.table_end() }}
+		{{ form.panel_end() }}
+	{% endif %}
+{% endblock %}

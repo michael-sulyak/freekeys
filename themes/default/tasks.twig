@@ -1,0 +1,28 @@
+{% extends 'base.twig' %}
+
+{% block title %}Задания{% endblock %}
+{% block content %}
+	<div class="row">
+		<div class="col-lg-3">			
+			{{ include('banner_1.twig') }}	
+		</div>
+		<div class="col-lg-6">
+			<h1 class="text-uppercase text-center">Дополнительные задания</h1><br>
+
+			<ol>
+				{% for task in group_tasks['list'] %}
+					<li>{{ task['instruction'] }}</li>
+				{% endfor %}
+			</ol>
+
+			<br>
+			<div class="text-center">
+				<a class="btn btn-primary" href="{{ url_base }}/item/{{ item['name'] }}/" role="button">Вернуться к "{{ item['full_name'] }}"</a>
+			</div>
+		</div>
+
+		<div class="col-lg-3">			
+			{{ include('banner_2.twig') }}	
+		</div>
+	</div>	
+{% endblock %}

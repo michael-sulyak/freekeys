@@ -1,0 +1,23 @@
+{
+	"module_name": "Items",
+	"module_uri": "http://nextable.ru/",
+	"version": "0.01",
+	"description": "",
+	"author": "expert_m",
+	"author_uri": "http://nextable.ru/",
+	"used_modules": [],
+	"used_files": [],
+	"used_tables": {
+		"items": [
+			"get_items(num)",
+			"get_item(id)",
+			"get_categories_items(num)",
+			"get_category_items(id)"
+		],
+		"categories": []
+	},
+	"
+variables": [],	
+	"config": [],
+	"used_config": []
+} 

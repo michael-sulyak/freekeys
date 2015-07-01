@@ -1,0 +1,88 @@
+{% extends 'base.twig' %}
+
+{% block title %}Предметы{% endblock %}
+
+
+{% if array_key_exists('category', get) and get['category'] %}
+	{% set category = get_items_category(get['category']) %}
+	{% set category_id = category['id'] %}	
+	{% set title = category['full_name'] %}
+{% else %}
+	{% set category = false %}
+	{% set category_id = '' %}	
+	{% set title = 'Предметы' %}
+{% endif %}
+
+{% set items = get_items({
+	'num': 100,
+	'category': category_id,
+	'column_name': item_sort['column_name'],
+	'order_by': item_sort['order_by']
+}) %}
+
+{% block content %}
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<div class="navbar-brand">Категория:</div>
+			</div>
+			<ul class="nav navbar-nav">
+				<li role="presentation" class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					{% if category %}{{ category['full_name'] }}{% else %}Все{% endif %} <span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="{{ url_base }}/items/">Все</a></li>
+						{% for item in interface('items', 'get_categories') %}
+							<li><a href="{{ url_base }}/items/{{ item['name'] }}">{{ item['full_name'] }}</a></li>
+						{% endfor %}
+					</ul>
+				</li>
+			</ul>
+			{#
+			<div class="navbar-header">
+				<div class="navbar-brand">Cортировать по:</div>
+			</div>
+			
+			<ul class="nav navbar-nav">
+				<li role="presentation" class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					- - - <span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="?column_name=id&amp;order_by=desc">дате</a></li>
+						<li><a href="?column_name=full_name&amp;order_by=asc">названию</a></li>
+						<li><a href="?column_name=cost&amp;order_by=desc">стоимости</a></li>
+						<li><a href="?column_name=views&amp;order_by=desc">просмотрам</a></li>
+					</ul>
+				</li>
+			</ul>
+			#}
+
+		</div>
+	</nav>
+
+	<div class="container-fluid text-center" style="padding:0px">
+		{% set n = 1 %}
+		{% for item in items %}
+			{% if n > 2 %}{% set n = 0 %}{% endif %}
+			{% if n == 0 %}<div class="row">{% endif %}
+			<div class="col-lg-4 col-md-4" style="padding-right:10px;padding-left:0">
+				<div class="thumbnail">
+					<a href="{{ url_base }}/item/{{ item['name'] }}/">
+						<img src="{% if item['image'] %}{{ item['image'] }}{% else %}http://placehold.it/800x500{% endif %}" alt="">
+					</a>
+					<div class="caption">
+						<h3><a href="{{ url_base }}/item/{{ item['name'] }}/">{{ item['full_name'] }}</a></h3>
+						<p>{{ item['short_description'] }}</p>
+						<p>
+							<a href="{{ url_base }}/item/{{ item['name'] }}/" class="btn btn-primary btn-block text-uppercase">Получить</a>
+						</p>
+					</div>
+				</div>
+			</div>
+			{% if n == 0 %}</div>{% endif %}
+			{% set n = n+1 %}
+		{% endfor %}
+	</div>
+{% endblock %}

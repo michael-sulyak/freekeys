@@ -1,0 +1,44 @@
+{% extends 'base.twig' %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-lg-3">	
+			{{ include('banner_1.twig') }}	
+		</div>
+
+		<div class="col-lg-6">
+			<h1 class="text-uppercase text-center">Редактирование профиля</h1><br>
+			<form role="form" method="POST">
+				<div class="form-group">
+					<label>E-Mail</label>
+					<input class="form-control" name="interface[auth][save_profile][0][email]" type="text" value="{{ user['email'] }}">
+				</div><br>
+
+				<div class="form-group">
+					<label>Steam trade URL</label>
+					<input class="form-control" name="interface[auth][save_profile][0][steam_trade_url]" type="text" value="{{ user['steam_trade_url'] }}">
+				</div><br>
+
+				<div class="form-group">
+					<label>Новый пароль</label>
+					<input class="form-control" name="interface[auth][save_profile][0][password]" type="password">
+					<p class="help-block">Оставьте это поле пустым, если не хотите менять пароль</p>
+				</div><br>
+
+				<div class="form-group">
+					<label>Повторите пароль</label>
+					<input class="form-control" name="interface[auth][save_profile][0][password2]" type="password">
+					<p class="help-block">Оставьте это поле пустым, если не хотите менять пароль</p>
+				</div><br>
+
+				<button name="interface[auth][save_profile][0][run]" type="submit" class="btn btn-primary btn-lg btn-block">Сохранить</button>
+			</form>
+		</div>
+
+		<div class="col-lg-3">
+			{{ include('banner_2.twig') }}			
+		</div>
+	</div>
+{% endblock %}

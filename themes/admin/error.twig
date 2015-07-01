@@ -1,0 +1,54 @@
+{% if title == '' %}
+	{% set title = 'Error' %}
+{% endif %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{ title }}</title>
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+	<style>
+	body {
+		font: 16px 'Ubuntu Mono';
+		color: #F9FBE6;
+		background: #08070C;
+		text-transform: uppercase;
+	}
+
+	.block {
+		width: 300px;
+		height: 200px;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		margin: -100px 0 0 -150px;
+		border: 3px solid #A1120C;
+	}
+
+	.title {		
+		font-size: 24px;
+		border-bottom: 3px solid #A1120C;
+		padding: 10px;
+		color: #A1120C;
+	}
+
+	.message {
+		overflow: auto;
+		padding: 10px;
+	}
+	</style>
+</head>
+<body>
+	<div class="block">
+		<div class="title">{{ title }}</div>
+		<div class="message">
+			{{ message }}
+			{% if args %}
+			<br><br>Arguments:<br>
+			{% for key, value in args %}
+				{{ key }} = {{ value }}<br>
+			{% endfor %}
+			{% endif %}
+		</div>
+	</div>
+</body>
+</html>

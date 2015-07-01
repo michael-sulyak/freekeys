@@ -1,0 +1,159 @@
+{% if index %}
+	{% set title = 'Index' %}
+	{% set content = '
+
+	' %}
+{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	{% block head %}
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>{% block title %}{% endblock %}</title>
+
+		<!-- Bootstrap Core CSS -->
+		<link href="{{ url_theme }}/css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- Custom CSS -->
+		<link href="{{ url_theme }}/css/style.css" rel="stylesheet">
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	{% endblock %}
+</head>
+
+<body>
+	{% if not auth %}
+		<div id="auth" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="exampleModalLabel">Авторизация</h4>
+					</div>
+					<form method="post" role="form">
+						<div class="modal-body">		
+							<input type="hidden" name="interface[auth][login][0][remember]" value="1">		
+							<div class="form-group">
+								<label for="recipient-name" class="control-label">Логин</label>
+								<input type="text" class="form-control" id="recipient-name" name="interface[auth][login][0][login]">
+							</div>
+							<div class="form-group">
+								<label for="message-text" class="control-label">Пароль</label>
+								<input type="password" class="form-control" id="recipient-name" name="interface[auth][login][0][password]">
+							</div>	
+							<hr>							
+							<div class="form-inline text-center">
+								<div class="form-group">
+									<p class="form-control-static">Вход через:</p>
+								</div>
+								<div class="form-group">
+									<a class="btn btn-default btn-xs" href="{{ link_vk() }}" target="_blank" role="button">ВКонтакте</a>
+								</div>
+								<div class="form-group">
+									<a class="btn btn-default btn-xs" href="{{ link_fb() }}" target="_blank" role="button">Facebook</a>		
+								</div>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+							<button type="submit" class="btn btn-primary" name="interface[auth][login][0][run]">Войти</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-inverse navbar-fixed-top navbar-fk" role="navigation">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="{{ url_base }}">FREEKEYS CMS</a>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="{{ url_base }}/items/">Предметы</a>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					{% if not auth %}
+						<li>
+							<a data-toggle="modal" href="#" data-target="#auth" role="button">Вход</a>
+						</li>
+						<li>
+							<a href="{{ url_base }}/register/">Регистрация</a>
+						</li>
+					{% else %}
+						<li>
+							<a href="{{ url_base }}/profile/">Личный кабинет</a>
+						</li>
+						<li>
+							<a href="{{ url_base }}/exit/">Выход</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container -->
+	</nav>
+
+	<!-- Page Content -->
+	<div class="container">
+		{% for notification in notifications %}
+			<div class="alert alert-{{ notification['type'] }} alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				{{ notification['text'] }}
+			</div>
+		{% endfor %}
+
+		{% block content %}{% endblock %}
+
+		<!-- Footer -->
+		<footer>
+			<div class="row">
+				<div class="col-lg-12">
+					<p>Copyright &copy; FreeKeys CMS 2015</p>
+				</div>
+			</div>
+		</footer>
+
+	</div>
+	<!-- /.container -->
+
+	<!-- jQuery -->
+	<script src="{{ url_theme }}/js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="{{ url_theme }}/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+<!--
+	Project name: {{ project_name }}
+	Project version: {{ project_version }}
+	Total execution time: {{ execution_time(6) }} sec.
+	SQL queries: {{ query_count() }}
+-->

@@ -1,0 +1,60 @@
+{% import 'forms.twig' as form %}
+{% extends 'base.twig' %}
+
+{% block title %}{{ 'Configurations'|t }}{% endblock %}
+{% block content %}
+	{{ form.panel_begin('Configurations'|t) }}
+		<form role="form" method="POST">
+			<h1>{{ 'MySQL'|t }}</h1>
+			{{ form.input('interface[me][update_config][0][db_name]', config['db_name'], 'text', 'Name'|t) }}<br>
+			{{ form.input('interface[me][update_config][0][db_user]', config['db_user'], 'text', 'User'|t) }}<br>
+			{{ form.input('interface[me][update_config][0][db_password]', config['db_password'], 'text', 'Password'|t) }}<br>
+			{{ form.input('interface[me][update_config][0][db_host]', config['db_host'], 'text', 'Host'|t) }}<br>
+			{{ form.input('interface[me][update_config][0][db_prefix]', config['db_prefix'], 'text', 'Prefix'|t) }}<br>
+
+			<h1>{{ 'Authorization'|t }}</h1>
+			{{ form.input('interface[me][update_config][0][auth_online]', config['auth_online'], 'text', 'Time online (sec.)'|t) }}<br>
+			{{ form.input('interface[me][update_config][0][auth_attempts]', config['auth_attempts'], 'text', 'Maximum attempts'|t) }}<br>
+
+			{% if config['auth_vk'] %}
+				{% set auth_vk1 = 'selected' %}
+				{% set auth_vk2 = '' %}
+			{% else %}
+				{% set auth_vk1 = '' %}
+				{% set auth_vk2 = selected %}
+			{% endif %}
+
+			{{ form.select('interface[me][update_config][0][auth_vk]', [{'tag': auth_vk1, 'value': '1', 'text': 'Yes'|t}, {'tag': auth_vk2, 'value': '0', 'text': 'No'|t}], 'VK authorization') }}<br>
+			{{ form.input('interface[me][update_config][0][auth_vk_app_id]', config['auth_vk_app_id'], 'text', 'VK app ID'|t) }}<br>
+			{{ form.input('interface[me][update_config][0][auth_vk_app_secret]', config['auth_vk_app_secret'], 'text', 'VK app secret'|t) }}<br>
+
+			{% if config['auth_facebook'] %}
+				{% set auth_facebook1 = 'selected' %}
+				{% set auth_facebook2 = '' %}
+			{% else %}
+				{% set auth_facebook1 = '' %}
+				{% set auth_facebook2 = selected %}
+			{% endif %}
+
+			{{ form.select('interface[me][update_config][0][auth_facebook]', [{'tag': auth_facebook1, 'value': '1', 'text': 'Yes'|t}, {'tag': auth_facebook2, 'value': '0', 'text': 'No'|t}], 'Facebook authorization') }}<br>
+			{{ form.input('interface[me][update_config][0][auth_facebook_app_id]', config['auth_facebook_app_id'], 'text', 'Facebook app ID'|t) }}<br>
+			{{ form.input('interface[me][update_config][0][auth_facebook_app_secret]', config['auth_facebook_app_secret'], 'text', 'Facebook app secret'|t) }}<br>
+
+			<h1>{{ 'Distribution'|t }}</h1>
+			{{ form.input('interface[me][update_config][0][items_reg_points]', config['items_reg_points'], 'text', 'The initial number of points'|t) }}<br>
+			{{ form.input('interface[me][update_config][0][items_ref_limit]', config['items_ref_limit'], 'text', 'Maximum people per hour'|t) }}<br>
+			{{ form.input('interface[me][update_config][0][items_ref_cost]', config['items_ref_cost'], 'text', 'Cost view link'|t) }}<br>
+			{{ form.input('interface[me][update_config][0][items_ref_reg_cost]', config['items_ref_reg_cost'], 'text', 'The cost of registration'|t) }}<br>
+
+			<h1>{{ 'Localization'|t }}</h1>
+			{{ form.input('interface[me][update_config][0][lang]', config['lang'], 'text', 'Language'|t) }}<br>
+
+			<h1>{{ 'Other'|t }}</h1>
+			{{ form.input('interface[me][update_config][0][timezone]', config['timezone'], 'text', 'Timezone'|t) }}<br>
+			{{ form.input('interface[me][update_config][0][email_admin]', config['email_admin'], 'text', 'Email admin'|t) }}<br>
+			{{ form.input('interface[me][update_config][0][home_url]', config['home_url'], 'text', 'Home URL'|t) }}<br>
+
+			{{ form.button('interface[me][update_config][0][run]', 'Save'|t, 'success', 'lg') }}
+		</form>
+	{{ form.panel_end() }}
+{% endblock %}

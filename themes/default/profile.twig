@@ -1,0 +1,89 @@
+{% extends 'base.twig' %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-lg-3">	
+			{{ include('banner_1.twig') }}	
+		</div>
+
+		<div class="col-lg-6 text-center">
+			<h1 class="text-uppercase">Профиль</h1>
+
+			<table class="table table-bordered">
+				<tbody>
+			        <tr>
+						<th><b>ID</b></th>
+						<td>{{ user['id'] }}</td>
+					</tr>
+			        <tr>
+						<th><b>Дата регистрации</b></th>
+						<td>{{ user['date']|date("d.m.Y") }}</td>
+					</tr>
+			        <tr>
+						<th><b>Логин</b></th>
+						<td>{{ user['login'] }}</td>
+					</tr>
+					<tr>
+						<th><b>Email</b></th>
+						<td>{{ user['email'] }}</td>
+					</tr>
+			        <tr>
+						<th><b>Группа</b></th>
+						<td>
+							{% if user['user_level'] == 1 %}
+								Пользователь
+							{% elseif user['user_level'] == 10 %}
+								Администратор
+							{% endif %}
+						</td>
+					</tr>
+					<tr>
+						<th><b>Steam trade URL</b></th>
+						<td>{{ user['steam_trade_url'] }}</td>
+					</tr>
+					<tr>
+						<th><b>ВКонтакте ID</b></th>
+						<td>{{ user['vk_id'] }}</td>
+					</tr>
+					<tr>
+						<th><b>Facebook ID</b></th>
+						<td>{{ user['facebook_id'] }}</td>
+					</tr>
+					<tr>
+						<th><b>Баланс</b></th>
+						<td>{{ user['points'] }}</td>
+					</tr>
+					<tr>
+						<th><b>Персональная ссылка</b></th>
+						<td><a href="{{ url_base }}/ref/{{ user['id'] }}/" target="_blank">{{ url_base }}/ref/{{ user['id'] }}/</a></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="form-inline text-center">
+				<div class="form-group">
+					<p class="form-control-static">Привязать аккаунт к:</p>
+				</div>
+				<div class="form-group">
+					<a class="btn btn-default btn-xs" href="{{ link_vk() }}" target="_blank" role="button">ВКонтакте</a>
+				</div>
+				<div class="form-group">
+					<a class="btn btn-default btn-xs" href="{{ link_fb() }}" target="_blank" role="button">Facebook</a>		
+				</div>
+				{#
+				<div class="form-group">
+					<button type="button" class="btn btn-default btn-xs">Steam</button>
+				</div>#}
+			</div><br>
+			
+			<a class="btn btn-primary" href="{{ url_base }}/messages/" role="button">Сообщения</a>
+			<a class="btn btn-primary" href="{{ url_base }}/profile/edit/" role="button">Редактировать профиль</a>
+		</div>
+
+		<div class="col-lg-3">
+			{{ include('banner_2.twig') }}			
+		</div>
+	</div>
+{% endblock %}

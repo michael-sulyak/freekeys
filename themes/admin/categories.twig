@@ -1,0 +1,51 @@
+{% import 'forms.twig' as form %}
+{% extends 'base.twig' %}
+
+{% block title %}{{ 'Categories'|t }}{% endblock %}
+{% block content %}
+	{% if get['action'] == 'add_category' %}
+		{{ form.panel_begin('Creating a category'|t) }}
+			<form role="form" method="POST">
+				{{ form.input('interface[items][add_category][0][full_name]', '', 'text', 'Name'|t) }}<br>
+				{{ form.input('interface[items][add_category][0][name]', '', 'text', 'Second name (identifier)'|t) }}<br>
+				{{ form.text('interface[items][add_category][0][description]', '', 5, 'Description'|t) }}<br>
+
+				{{ form.button('interface[items][add_category][0][run]', 'Add'|t, 'primary', 'lg', true) }}
+			</form>
+		{{ form.panel_end() }}
+	{% elseif get['action'] == 'edit_category' %}
+		{% set item = get_items_category(get['id']) %}
+		{% if item %}
+			{{ form.panel_begin('Edit category'|t) }}
+				<form role="form" method="POST">
+					<input type="hidden" name="interface[items][save_category][0][id]" value="{{ item['id'] }}">
+					<input type="hidden" name="interface[items][delete_category][0][id]" value="{{ item['id'] }}">
+					<input type="hidden" name="interface[items][delete_category][0][full_name]" value="{{ item['full_name'] }}">
+					{{ form.input('interface[items][save_category][0][full_name]', item['full_name'], 'text', 'Name'|t) }}<br>
+					{{ form.input('interface[items][save_category][0][name]', item['name'], 'text', 'Second name (identifier)'|t) }}<br>
+					{{ form.text('interface[items][save_category][0][description]', item['description'], 5, 'Description'|t) }}<br>
+
+					{{ form.button('interface[items][save_category][0][run]', 'Save'|t, 'success', 'lg') }}
+					{{ form.button('interface[items][delete_category][0][run]', 'Delete'|t, 'danger', 'lg') }}
+				</form>
+			{{ form.panel_end() }}
+		{% endif %}
+	{% elseif get['action'] == 'list_categories' %}
+		{{ form.panel_begin('List of items'|t) }}
+			{% set table_thread = ['Name'|t, 'Description'|t, ''] %}		
+			{% set table_attributes = ['striped'] %}
+
+			{{ form.table_begin(table_thread, table_attributes) }}
+				{% for item in get_items_categories() %}
+					{% set table_date = [
+						item['full_name'],
+						item['description'],
+						form.hyperlink('Edit'|t, '?do=items&amp;action=edit_category&amp;id=' ~ item['id'], none, none, true)
+					] %}
+
+					{{ form.table_tr(table_date) }}
+				{% endfor %}
+			{{ form.table_end() }}
+		{{ form.panel_end() }}
+	{% endif %}	
+{% endblock %}

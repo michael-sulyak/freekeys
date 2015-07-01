@@ -1,0 +1,38 @@
+{% extends 'base.twig' %}
+
+{% block title %}{{ get['id'] }}{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-lg-3">			
+			{{ include('banner_1.twig') }}	
+		</div>
+		<div class="col-lg-6 text-center">
+			<h1 class="text-uppercase">Спасибо за переход!</h1>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">А что это такое?</div>
+				<div class="panel-body">
+					Это реферальная ссылка одного из участников нашего сервиса
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">А зачем это?</div>
+				<div class="panel-body">
+					За каждый переход по его ссылке, участник получает 1 балл
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">А для чего ему баллы?</div>
+				<div class="panel-body">
+					Полученные баллы он обменивает на <a href="{{ url_base }}"><strong>ключи для игр steam</strong></a> !
+				</div>
+			</div>
+			<a class="btn btn-lg btn-primary" href="{{ url_base }}" role="button">Я тоже хочу!</a>
+		</div>
+
+		<div class="col-lg-3">			
+			{{ include('banner_2.twig') }}	
+		</div>
+	</div>	
+{% endblock %}

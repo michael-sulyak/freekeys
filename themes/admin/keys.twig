@@ -1,0 +1,61 @@
+{% import 'forms.twig' as form %}
+{% extends 'base.twig' %}
+
+{% block title %}{{ 'Keys'|t }}{% endblock %}
+{% block content %}
+	{% if get['action'] == 'add_key' %}
+		{{ form.panel_begin('Creating a key'|t) }}
+			<form role="form" method="POST">
+				{{ form.input('interface[items][add_key][0][item_id]', '', 'text', 'Key ID'|t) }}<br>
+				{{ form.input('interface[items][add_key][0][key]', '', 'text', 'Key'|t) }}<br>
+				{{ form.text('interface[items][add_key][0][instruction]', '', 5, 'Or instruction'|t) }}<br>
+				{{ form.text('interface[items][add_key][0][help]', '', 5, 'Additional information'|t) }}<br>
+				{{ form.select('interface[items][add_key][0][inform]', [{'tag': '', 'value': '1', 'text': 'Yes'|t}, {'tag': 'selected', 'value': '0', 'text': 'No'|t}], 'Inform') }}<br>
+				{{ form.input('interface[items][add_key][0][number]', '1', 'text', 'Number'|t) }}<br>
+
+				{{ form.button('interface[items][add_key][0][run]', 'Add'|t, 'primary', 'lg', true) }}
+			</form>
+		{{ form.panel_end() }}
+	{% elseif get['action'] == 'edit_key' %}
+		{{ form.panel_begin('Edit key'|t) }}
+			<form role="form" method="POST">
+				<input type="hidden" name="interface[items][save_key][0][id]" value="{{ key['id'] }}">
+				<input type="hidden" name="interface[items][delete_key][0][id]" value="{{ key['id'] }}">
+				{{ form.input('interface[items][save_key][0][item_id]', key['item_id'], 'text', 'Key ID'|t) }}<br>
+				{{ form.input('interface[items][save_key][0][key]', key['key'], 'text', 'Key'|t) }}<br>
+				{{ form.text('interface[items][save_key][0][instruction]', key['instruction'], 5, 'Or instruction'|t) }}<br>
+				{{ form.text('interface[items][save_key][0][help]', key['help'], 5, 'Additional information'|t) }}<br>
+				{% if key['inform'] %}
+					{% set informt = 'selected' %}						
+					{% set informf = '' %}
+				{% else %}
+					{% set informt = '' %}						
+					{% set informf = 'selected' %}
+				{% endif %}
+				{{ form.select('interface[items][save_key][0][inform]', [{'tag': informt, 'value': '1', 'text': 'Yes'|t}, {'tag': informf, 'value': '0', 'text': 'No'|t}], 'Inform'|t) }}<br>
+				{{ form.input('interface[items][save_key][0][number]', key['number'], 'text', 'Number'|t) }}<br>
+
+				{{ form.button('interface[items][save_key][0][run]', 'Save'|t, 'success', 'lg') }}
+				{{ form.button('interface[items][delete_key][0][run]', 'Delete'|t, 'danger', 'lg') }}
+			</form>
+		{{ form.panel_end() }}
+	{% elseif get['action'] == 'list_keys' %}
+		{{ form.panel_begin('List of keys'|t) }}
+			{% set table_thread = ['ID'|t, 'Item ID'|t, 'Number'|t, ''] %}		
+			{% set table_attributes = ['striped'] %}
+
+			{{ form.table_begin(table_thread, table_attributes) }}
+				{% for item in get_items_keys(50) %}
+					{% set table_date = [
+						item['id'],
+						item['item_id'],
+						item['number'],
+						form.hyperlink('Edit'|t, '?do=items&amp;action=edit_key&amp;id=' ~ item['id'], none, none, true)
+					] %}
+
+					{{ form.table_tr(table_date) }}
+				{% endfor %}
+			{{ form.table_end() }}
+		{{ form.panel_end() }}
+	{% endif %}
+{% endblock %}

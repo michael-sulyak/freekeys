@@ -1,0 +1,27 @@
+{% extends 'base.twig' %}
+
+{% block title %}Cообщения{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-lg-3">			
+			{{ include('banner_1.twig') }}	
+		</div>
+		<div class="col-lg-6">
+			<h1 class="text-uppercase text-center">Cообщения</h1>
+
+			{% for message in messages %}
+				<div class="thumbnail">
+					<div class="caption">
+						<h3 class="media-heading">{{ message['subject'] }}</h3>
+						<p>{{ message['text'] }}</p>
+					</div>
+				</div>
+    		{% endfor %}
+		</div>
+
+		<div class="col-lg-3">			
+			{{ include('banner_2.twig') }}	
+		</div>
+	</div>	
+{% endblock %}
