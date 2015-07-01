@@ -22,7 +22,6 @@ class Theme
 	private $twig;
 	private $values;
 	private $list_values = array();
-	private $menu = array();
 
 	function __construct() {
 		global $me;
@@ -55,11 +54,6 @@ class Theme
 		global $me;
 		$me->create_action('generation_theme');
 
-		usort($this->menu, create_function('$a, $b', 'return ($a["priority"] < $b["priority"]) ? -1 : ($a["priority"] == $b["priority"] ? 0 : 1);'));
-		if ($_GET['do'] == '') $_GET['do'] = $this->menu[0]['name'];
-		$me->create_action($_GET['do']);
-		$this->add_variable('menu', $this->menu);
-
 		if (file_exists(THEME_DIR.'/main.php')) {
 			global $tpl;
 			require_once THEME_DIR.'/main.php';
@@ -83,10 +77,6 @@ class Theme
 	public function add_filter($func, $name = '') {
 		$this->twig->addFilter($name, new Twig_Filter_Function($func ? $func : $name));
 	}
-
-	public function add_menu($text, $icon, $link, $priority = 5, $name = '', $parent = 'base') {
-		array_push($this->menu, array('text' => $text, 'icon' => $icon, 'link' => $link, 'priority' => $priority, 'name' => $name, 'parent' => $parent));
-	}	
 
 	public function add_variable($tag, $value) {
 		$this->list_values[$tag] = $value;
