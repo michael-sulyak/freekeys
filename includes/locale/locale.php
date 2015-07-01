@@ -6,7 +6,7 @@ Author: expert_m
 */
 
 putenv('LANG='.$me->config('lang', 'en_EN'));
-setlocale(LC_ALL, $me->config('lang'));
+setlocale(LC_ALL, $me->config('lang', 'en_EN'));
 bindtextdomain('lang', LOCALE_DIR);
 bind_textdomain_codeset('lang', 'UTF8');
 textdomain('lang');
