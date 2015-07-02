@@ -78,7 +78,7 @@ FreeKeys CMS – специальный движок позволяющий со
 * `items_ref_reg_cost` – стоимость регистрации по ссылке
 
 ##### Остальное 
-* `home_url` – адрес сайта (например: `http://nextable.ru`)
+* `home_url` – адрес сайта без знака слеша `/` на конце (например: `http://nextable.ru`)
 * `list_plugins` – список плагинов
 * `lang` - язык (например `ru_RU` или `en_EN`)
 * `timezone` - [часовой пояс](http://php.net/manual/ru/timezones.php)
