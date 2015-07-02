@@ -9,7 +9,7 @@
  * @author    Alexander V. Butenko <a.butenka@gmail.com>
  * @copyright Copyright (c) 2010
  * @license   http://opensource.org/licenses/gpl-3.0.html GNU Public License
- * @version   2.0
+ * @version   2.1
  **/
 class MysqliDb
 {
@@ -24,7 +24,7 @@ class MysqliDb
      * 
      * @var string
      */
-    protected static $_prefix;
+    public static $prefix;
     /**
      * MySQLi instance
      *
@@ -220,7 +220,7 @@ class MysqliDb
      */
     public function setPrefix($prefix = '')
     {
-        self::$_prefix = $prefix;
+        self::$prefix = $prefix;
         return $this;
     }
 
@@ -264,7 +264,7 @@ class MysqliDb
     /**
      *
      * @param string $query   Contains a user-provided select query.
-     * @param int    $numRows The number of rows total to return.
+     * @param integer|array $numRows Array to define SQL limit in format Array ($count, $offset)
      *
      * @return array Contains the returned rows from the query.
      */
@@ -321,7 +321,8 @@ class MysqliDb
      * A convenient SELECT * function.
      *
      * @param string  $tableName The name of the database table to work with.
-     * @param integer $numRows   The number of rows total to return.
+     * @param integer|array $numRows Array to define SQL limit in format Array ($count, $offset)
+     *                               or only $count
      *
      * @return array Contains the returned rows from the select query.
      */
@@ -332,7 +333,7 @@ class MysqliDb
 
         $column = is_array($columns) ? implode(', ', $columns) : $columns; 
         $this->_query = 'SELECT ' . implode(' ', $this->_queryOptions) . ' ' .
-                        $column . " FROM " .self::$_prefix . $tableName;
+                        $column . " FROM " .self::$prefix . $tableName;
         $stmt = $this->_buildQuery($numRows);
 
         if ($this->isSubQuery)
@@ -384,31 +385,27 @@ class MysqliDb
     }
 
     /**
+     * Insert method to add new row
      *
      * @param <string $tableName The name of the table.
      * @param array $insertData Data containing information for inserting into the DB.
      *
      * @return boolean Boolean indicating whether the insert query was completed succesfully.
      */
-    public function insert($tableName, $insertData)
-    {
-        if ($this->isSubQuery)
-            return;
+    public function insert ($tableName, $insertData) {
+        return $this->_buildInsert ($tableName, $insertData, 'INSERT');
+    }
 
-        $this->_query = "INSERT INTO " .self::$_prefix . $tableName;
-        $stmt = $this->_buildQuery(null, $insertData);
-        $stmt->execute();
-        $this->_stmtError = $stmt->error;
-        $this->reset();
-        $this->count = $stmt->affected_rows;
-
-        if ($stmt->affected_rows < 1)
-            return false;
-
-        if ($stmt->insert_id > 0)
-            return $stmt->insert_id;
-
-        return true;
+    /**
+     * Replace method to add new row
+     *
+     * @param <string $tableName The name of the table.
+     * @param array $insertData Data containing information for inserting into the DB.
+     *
+     * @return boolean Boolean indicating whether the insert query was completed succesfully.
+     */
+    public function replace ($tableName, $insertData) {
+        return $this->_buildInsert ($tableName, $insertData, 'REPLACE');
     }
 
     /**
@@ -438,7 +435,7 @@ class MysqliDb
         if ($this->isSubQuery)
             return;
 
-        $this->_query = "UPDATE " . self::$_prefix . $tableName;
+        $this->_query = "UPDATE " . self::$prefix . $tableName;
 
         $stmt = $this->_buildQuery (null, $tableData);
         $status = $stmt->execute();
@@ -453,7 +450,8 @@ class MysqliDb
      * Delete query. Call the "where" method first.
      *
      * @param string  $tableName The name of the database table to work with.
-     * @param integer $numRows   The number of rows to delete.
+     * @param integer|array $numRows Array to define SQL limit in format Array ($count, $offset)
+     *                               or only $count
      *
      * @return boolean Indicates success. 0 or 1.
      */
@@ -462,7 +460,7 @@ class MysqliDb
         if ($this->isSubQuery)
             return;
 
-        $this->_query = "DELETE FROM " . self::$_prefix . $tableName;
+        $this->_query = "DELETE FROM " . self::$prefix . $tableName;
 
         $stmt = $this->_buildQuery($numRows);
         $stmt->execute();
@@ -482,12 +480,16 @@ class MysqliDb
      *
      * @return MysqliDb
      */
-    public function where($whereProp, $whereValue = null, $operator = null)
+    public function where($whereProp, $whereValue = 'DBNULL', $operator = '=', $cond = 'AND')
     {
-        if ($operator)
-            $whereValue = Array ($operator => $whereValue);
-
-        $this->_where[] = Array ("AND", $whereValue, $whereProp);
+        // forkaround for an old operation api
+        if (is_array ($whereValue) && ($key = key ($whereValue)) != "0") {
+            $operator = $key;
+            $whereValue = $whereValue[$key];
+        }
+        if (count ($this->_where) == 0)
+            $cond = '';
+        $this->_where[] = Array ($cond, $whereProp, $operator, $whereValue);
         return $this;
     }
 
@@ -501,13 +503,9 @@ class MysqliDb
      *
      * @return MysqliDb
      */
-    public function orWhere($whereProp, $whereValue = null, $operator = null)
+    public function orWhere($whereProp, $whereValue = 'DBNULL', $operator = '=')
     {
-        if ($operator)
-            $whereValue = Array ($operator => $whereValue);
-
-        $this->_where[] = Array ("OR", $whereValue, $whereProp);
-        return $this;
+        return $this->where ($whereProp, $whereValue, $operator, 'OR');
     }
     /**
      * This method allows you to concatenate joins for the final SQL statement.
@@ -529,7 +527,7 @@ class MysqliDb
             die ('Wrong JOIN type: '.$joinType);
 
         if (!is_object ($joinTable))
-            $joinTable = self::$_prefix . filter_var($joinTable, FILTER_SANITIZE_STRING);
+            $joinTable = self::$prefix . filter_var($joinTable, FILTER_SANITIZE_STRING);
 
         $this->_join[] = Array ($joinType,  $joinTable, $joinCondition);
 
@@ -550,6 +548,12 @@ class MysqliDb
         $allowedDirection = Array ("ASC", "DESC");
         $orderbyDirection = strtoupper (trim ($orderbyDirection));
         $orderByField = preg_replace ("/[^-a-z0-9\.\(\),_`]+/i",'', $orderByField);
+
+        // Add table prefix to orderByField if needed. 
+        //FIXME: We are adding prefix only if table is enclosed into `` to distinguish aliases
+        // from table names
+        $orderByField = preg_replace('/(\`)([`a-zA-Z0-9_]*\.)/', '\1' . self::$prefix.  '\2', $orderByField);
+
 
         if (empty($orderbyDirection) || !in_array ($orderbyDirection, $allowedDirection))
             die ('Wrong order direction: '.$orderbyDirection);
@@ -690,11 +694,41 @@ class MysqliDb
     }
 
     /**
+     * Internal function to build and execute INSERT/REPLACE calls
+     *
+     * @param <string $tableName The name of the table.
+     * @param array $insertData Data containing information for inserting into the DB.
+     *
+     * @return boolean Boolean indicating whether the insert query was completed succesfully.
+     */
+    private function _buildInsert ($tableName, $insertData, $operation)
+    {
+        if ($this->isSubQuery)
+            return;
+
+        $this->_query = $operation . " " . implode (' ', $this->_queryOptions) ." INTO " .self::$prefix . $tableName;
+        $stmt = $this->_buildQuery (null, $insertData);
+        $stmt->execute();
+        $this->_stmtError = $stmt->error;
+        $this->reset();
+        $this->count = $stmt->affected_rows;
+
+        if ($stmt->affected_rows < 1)
+            return false;
+
+        if ($stmt->insert_id > 0)
+            return $stmt->insert_id;
+
+        return true;
+    }
+
+    /**
      * Abstraction method that will compile the WHERE statement,
      * any passed update data, and the desired rows.
      * It then builds the SQL query.
      *
-     * @param int   $numRows   The number of rows total to return.
+     * @param integer|array $numRows Array to define SQL limit in format Array ($count, $offset)
+     *                               or only $count
      * @param array $tableData Should contain an array of data for updating the database.
      *
      * @return mysqli_stmt Returns the $stmt object.
@@ -867,33 +901,17 @@ class MysqliDb
         if (empty ($this->_where))
             return;
 
-        //Prepair the where portion of the query
+        //Prepare the where portion of the query
         $this->_query .= ' WHERE';
 
-        // Remove first AND/OR concatenator
-        $this->_where[0][0] = '';
         foreach ($this->_where as $cond) {
-            list ($concat, $wValue, $wKey) = $cond;
+            list ($concat, $varName, $operator, $val) = $cond;
+            $this->_query .= " " . $concat ." " . $varName;
 
-            $this->_query .= " " . $concat ." " . $wKey;
-
-            // Empty value (raw where condition in wKey)
-            if ($wValue === null)
-                continue;
-
-            // Simple = comparison
-            if (!is_array ($wValue))
-                $wValue = Array ('=' => $wValue);
-
-            $key = key ($wValue);
-            $val = $wValue[$key];
-            switch (strtolower ($key)) {
-                case '0':
-                    $this->_bindParams ($wValue);
-                    break;
+            switch (strtolower ($operator)) {
                 case 'not in':
                 case 'in':
-                    $comparison = ' ' . $key . ' (';
+                    $comparison = ' ' . $operator. ' (';
                     if (is_object ($val)) {
                         $comparison .= $this->_buildPair ("", $val);
                     } else {
@@ -906,15 +924,20 @@ class MysqliDb
                     break;
                 case 'not between':
                 case 'between':
-                    $this->_query .= " $key ? AND ? ";
+                    $this->_query .= " $operator ? AND ? ";
                     $this->_bindParams ($val);
                     break;
                 case 'not exists':
                 case 'exists':
-                    $this->_query.= $key . $this->_buildPair ("", $val);
+                    $this->_query.= $operator . $this->_buildPair ("", $val);
                     break;
                 default:
-                    $this->_query .= $this->_buildPair ($key, $val);
+                    if (is_array ($val))
+                        $this->_bindParams ($val);
+                    else if ($val === null)
+                        $this->_query .= $operator . " NULL";
+                    else if ($val != 'DBNULL' || $val == '0')
+                        $this->_query .= $this->_buildPair ($operator, $val);
             }
         }
     }
@@ -937,7 +960,6 @@ class MysqliDb
     /**
      * Abstraction method that will build the LIMIT part of the WHERE statement
      *
-     * @param int   $numRows   The number of rows total to return.
      */
     protected function _buildOrderBy () {
         if (empty ($this->_orderBy))
@@ -957,7 +979,8 @@ class MysqliDb
     /**
      * Abstraction method that will build the LIMIT part of the WHERE statement
      *
-     * @param int   $numRows   The number of rows total to return.
+     * @param integer|array $numRows Array to define SQL limit in format Array ($count, $offset)
+     *                               or only $count
      */
     protected function _buildLimit ($numRows) {
         if (!isset ($numRows))
@@ -1030,7 +1053,7 @@ class MysqliDb
             $val = $vals[$i++];
             if (is_object ($val))
                 $val = '[object]';
-            if ($val == NULL)
+            if ($val === NULL)
                 $val = 'NULL';
             $newStr .= substr ($str, 0, $pos) . "'". $val . "'";
             $str = substr ($str, $pos + 1);
