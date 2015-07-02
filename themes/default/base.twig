@@ -57,12 +57,17 @@
 								<div class="form-group">
 									<p class="form-control-static">Вход через:</p>
 								</div>
-								<div class="form-group">
-									<a class="btn btn-default btn-xs" href="{{ link_vk() }}" target="_blank" role="button">ВКонтакте</a>
-								</div>
-								<div class="form-group">
-									<a class="btn btn-default btn-xs" href="{{ link_fb() }}" target="_blank" role="button">Facebook</a>		
-								</div>
+
+								{% if auth_vk %}
+									<div class="form-group">
+										<a class="btn btn-default btn-xs" href="{{ link_vk() }}" target="_blank" role="button">ВКонтакте</a>
+									</div>
+								{% endif %}
+								{% if auth_facebook %}
+									<div class="form-group">
+										<a class="btn btn-default btn-xs" href="{{ link_fb() }}" target="_blank" role="button">Facebook</a>		
+									</div>
+								{% endif %}
 							</div>
 
 						</div>

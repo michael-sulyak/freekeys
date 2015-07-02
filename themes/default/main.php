@@ -9,8 +9,14 @@ $tpl->add_function('get_items_key', $me->get_interface('items', 'get_key'));
 $tpl->add_function('get_items_keys', $me->get_interface('items', 'get_keys'));
 $tpl->add_function('get_sum_keys', $me->get_interface('items', 'get_sum_keys'));
 
-$tpl->add_function('link_vk', $me->get_interface('auth', 'link_vk'));
-$tpl->add_function('link_fb', $me->get_interface('auth', 'link_facebook'));
+if ($me->config('auth_vk', false)) {
+	$tpl->add_function('link_vk', $me->get_interface('auth', 'link_vk'));
+}
+
+if ($me->config('auth_facebook', false)) {
+	$tpl->add_function('link_fb', $me->get_interface('auth', 'link_facebook'));
+}
+
 $tpl->add_function('shortener', $me->get_interface('items', 'shortener'));
 
 $user = $me->config('user');
