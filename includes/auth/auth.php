@@ -199,6 +199,8 @@ class Auth {
 
 		if ($query) {	
 			$me->add_notification(__('Registration was successful.'), 'success');
+			$user['id'] = $query;
+			$this->auth_user($user);
 		} else {			
 			$me->add_notification(__('Unknown error.'), 'danger');
 		}

@@ -15,7 +15,7 @@ $tpl->add_function('shortener', $me->get_interface('items', 'shortener'));
 
 $user = $me->config('user');
 
-if (!$me->config('auth', false) && !$me->level_check(5)) {	
+if (!$me->config('auth', false) || !$me->level_check(5)) {	
 	$me->set_config('theme_entry_point', 'login.twig');
 } elseif ($_GET['do'] == 'items' && $_GET['action']) {
 	switch ($_GET['action']) {
