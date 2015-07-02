@@ -24,6 +24,14 @@
 			"full_name": 0,
 			"description": 0,
 			"list": 0
+		},
+
+		"items_categories": {
+			"id": 0,
+			"date": 0,
+			"full_name": 0,
+			"description": 0,
+			"name": 0
 		}
 	},
 	

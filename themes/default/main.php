@@ -65,9 +65,8 @@ switch ($_GET['do']) {
 					break;
 				}
 
-
 				$item = $me->run_interface('items', 'get', array('name' => $_GET['name'], 'view' => true));
-				if (!$item) $tpl->redirect('/404/');
+				if (!$item['full_name']) $tpl->redirect('/404/');
 				$tpl->add_variable('item', $item);
 				$me->set_config('theme_entry_point', 'item.twig');
 				break;

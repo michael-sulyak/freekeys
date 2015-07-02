@@ -2,9 +2,11 @@
 
 {% block title %}Предметы{% endblock %}
 
-
 {% if array_key_exists('category', get) and get['category'] %}
 	{% set category = get_items_category({'name': get['category']}) %}
+{% endif %}
+
+{% if array_key_exists('category', get) and get['category'] and array_key_exists('id', category) %}
 	{% set category_id = category['id'] %}	
 	{% set title = category['full_name'] %}
 {% else %}

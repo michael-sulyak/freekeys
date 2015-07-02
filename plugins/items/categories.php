@@ -70,11 +70,8 @@ class ItemsCategories {
 			}
 		}
 		
-		$query = $db->getOne('items_categories');
+		$query = SmartDB::getOne('items_categories');
 		if (!$query) return;
-		if (!$query['name']) $query['name'] = '';
-		if (!$query['full_name']) $query['full_name'] = '';
-		if (!$query['description']) $query['description'] = '';
 
 		return $query;
 	}
@@ -82,7 +79,7 @@ class ItemsCategories {
 	public function get_categories() { 	
 		global $db;
 		$db->orderBy('full_name', 'asc');
-		return $db->get('items_categories');
+		return SmartDB::get('items_categories');
 	}
 }
 
