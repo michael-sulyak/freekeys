@@ -21,7 +21,7 @@
 				{% set auth_vk2 = '' %}
 			{% else %}
 				{% set auth_vk1 = '' %}
-				{% set auth_vk2 = selected %}
+				{% set auth_vk2 = 'selected' %}
 			{% endif %}
 
 			{{ form.select('interface[me][update_config][0][auth_vk]', [{'tag': auth_vk1, 'value': '1', 'text': 'Yes'|t}, {'tag': auth_vk2, 'value': '0', 'text': 'No'|t}], 'VK authorization') }}<br>
@@ -33,7 +33,7 @@
 				{% set auth_facebook2 = '' %}
 			{% else %}
 				{% set auth_facebook1 = '' %}
-				{% set auth_facebook2 = selected %}
+				{% set auth_facebook2 = 'selected' %}
 			{% endif %}
 
 			{{ form.select('interface[me][update_config][0][auth_facebook]', [{'tag': auth_facebook1, 'value': '1', 'text': 'Yes'|t}, {'tag': auth_facebook2, 'value': '0', 'text': 'No'|t}], 'Facebook authorization') }}<br>
