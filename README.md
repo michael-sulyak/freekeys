@@ -298,10 +298,10 @@ interface[items][save_task][0][run]
 Released under the MIT License:<br>
 http://opensource.org/licenses/mit-license.php
 
-The MysqliDb.php is licensed under the MIT license:<br>
+MysqliDb.php:<br>
 https://github.com/joshcam/PHP-MySQLi-Database-Class/blob/master/LICENSE
 
-The Twig is licensed under the MIT license:<br>
+Twig:<br>
 https://github.com/twigphp/Twig/blob/1.x/LICENSE
 
 Created by [expert_m](http://nextable.ru/)
