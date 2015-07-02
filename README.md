@@ -293,15 +293,15 @@ interface[items][save_task][0][run]
 
 ---
 
-Created by expert_m
+### Licence
 
 Released under the MIT License:<br>
-* http://opensource.org/licenses/mit-license.php
+http://opensource.org/licenses/mit-license.php
 
 The MysqliDb.php is licensed under the MIT license:<br>
-* https://github.com/joshcam/PHP-MySQLi-Database-Class/blob/master/LICENSE
+https://github.com/joshcam/PHP-MySQLi-Database-Class/blob/master/LICENSE
 
 The Twig is licensed under the MIT license:<br>
-* https://github.com/twigphp/Twig/blob/1.x/LICENSE
+https://github.com/twigphp/Twig/blob/1.x/LICENSE
 
-http://nextable.ru/
+Created by [expert_m](http://nextable.ru/)
