@@ -45,7 +45,7 @@
 			{% set table_attributes = ['striped'] %}
 
 			{{ form.table_begin(table_thread, table_attributes) }}
-				{% for item in get_items_keys(50) %}
+				{% for item in get_items_keys(500) %}
 					{% set table_date = [
 						item['id'],
 						item['item_id'],

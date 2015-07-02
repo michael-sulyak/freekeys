@@ -54,7 +54,7 @@ if (!$me->config('auth', false) || !$me->level_check(5)) {
 			break;
 
 		case 'list_tasks':
-			$tasks = $me->run_interface('items', 'get_tasks', 50);
+			$tasks = $me->run_interface('items', 'get_tasks', 500);
 			if (!$tasks) {
 				$me->set_config('theme_entry_point', '404.twig');
 				break;
@@ -64,7 +64,7 @@ if (!$me->config('auth', false) || !$me->level_check(5)) {
 			break;
 
 		case 'list_group_tasks':
-			$tasks = $me->run_interface('items', 'get_groups_tasks', 50);
+			$tasks = $me->run_interface('items', 'get_groups_tasks', 500);
 			if (!$tasks) {
 				$me->set_config('theme_entry_point', '404.twig');
 				break;
