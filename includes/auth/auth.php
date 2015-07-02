@@ -135,7 +135,7 @@ class Auth {
 		$me->set_config('level', $user['user_level']);	
 		$this->update_last_visit($user['id']);
 
-		$me->add_notification(__('Login be successful.'), 'success');
+		$me->add_notification(_s('You are logged in as "%s".', $user['login']), 'success');
 	}
 
 	public function logout() {

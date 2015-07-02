@@ -24,8 +24,8 @@ msgstr "Неверно введен логин или пароль."
 msgid "Attempting to enter the account \"%s\""
 msgstr "Попытка входа в аккаунт \"%s\"."
 
-msgid "Login be successful."
-msgstr "Авторизация прошла успешно."
+msgid "You are logged in as \"%s\"."
+msgstr "Вы вошли как \"%s\"."
 
 msgid "CAPTCHA entered incorrectly."
 msgstr "CAPTCHA введена неверно."

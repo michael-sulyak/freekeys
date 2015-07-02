@@ -4,7 +4,7 @@
 
 
 {% if array_key_exists('category', get) and get['category'] %}
-	{% set category = get_items_category(get['category']) %}
+	{% set category = get_items_category({'name': get['category']}) %}
 	{% set category_id = category['id'] %}	
 	{% set title = category['full_name'] %}
 {% else %}

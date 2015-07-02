@@ -52,15 +52,22 @@ class ItemsCategories {
 		}
 	}
 
-	public function get($id) { 	
+	public function get($arg) { 	
 		global $db;
 
-		if ($id == NULL) return;
-
-		if (is_numeric($id)) {
-			$db->where('id', $id);
+		if (is_array($arg)) {
+			if (isset($arg['id'])) {
+				$db->where('id', $arg['id']);
+			} else {
+				$db->where('name', $arg['name']);				
+			}
 		} else {
-			$db->where('name', $id);
+			$id = $arg;
+			if (is_numeric($id)) {
+				$db->where('id', $id);
+			} else {
+				$db->where('name', $id);
+			}
 		}
 		
 		$query = $db->getOne('items_categories');
