@@ -6,7 +6,8 @@ Author: expert_m
 */
 
 putenv('LANG='.$me->config('lang', 'en_EN'));
-setlocale(LC_ALL, $me->config('lang', 'en_EN'));
+putenv('LC_MESSAGES='.$me->config('lang', 'en_EN')); 
+setlocale(LC_ALL, $me->config('lang', 'en_EN').'.UTF-8');
 bindtextdomain('lang', LOCALE_DIR);
 bind_textdomain_codeset('lang', 'UTF8');
 textdomain('lang');
