@@ -42,8 +42,8 @@
 				<input type="hidden" name="interface[auth][register][0][captcha_id]" value="{{ captcha_id }}">
 				
 				<p>
-					<a href="#" onclick="document.getElementById('captcha').src='{{ url_base }}/captcha.jpg?id={{ captcha_id }}&amp;'+Math.random(); return false;" title="Обновить">
-						<img src="{{ url_base }}/captcha.jpg?id={{ captcha_id }}" id="captcha" class="captcha">
+					<a href="#" onclick="document.getElementById('captcha').src='{{ url_base }}/includes/helper/captcha/image.php?id={{ captcha_id }}&amp;'+Math.random(); return false;" title="Обновить">
+						<img src="{{ url_base }}/includes/helper/captcha/image.php?id={{ captcha_id }}" id="captcha" class="captcha">
 					</a>
 				</p>
 

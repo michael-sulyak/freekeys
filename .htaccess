@@ -21,7 +21,7 @@ RewriteRule ^items/([^/]*)(/?)+$  index.php?do=items&category=$1 [L]
 RewriteRule ^item/([^/]*)(/?)+$  index.php?do=items&action=view&name=$1 [L]
 RewriteRule ^item/([^/]*)/tasks(/?)+$  index.php?do=items&action=tasks&name=$1 [L]
 RewriteRule ^ref/([^/]*)(/?)+$  index.php?do=items&action=ref&id=$1 [L]
-RewriteRule ^captcha.jpg includes/helper/captcha/image.php [L]
+# RewriteRule ^captcha.jpg includes/helper/captcha/image.php [L]
 
 RewriteRule ^404 index.php?do=404 [L]
 
