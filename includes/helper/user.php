@@ -1,11 +1,11 @@
 <?php
 
 class User {
-	public function ban($time) {
+	public static function ban($time) {
 		UserMeta::add(array('key' => 'user_ban', 'value' => time()+$time));
 	}
 
-	public function isBan() {
+	public static function isBan() {
 		$query = UserMeta::get('user_ban');
 
 		foreach ($query as $value) {
@@ -19,7 +19,7 @@ class User {
 		return false;
 	}
 
-	public function ip() {
+	public static function ip() {
 		return $_SERVER["REMOTE_ADDR"];
 	}
 

@@ -1,7 +1,7 @@
 <?php
 
 class File {
-	public function get_contents($url) {
+	public static function get_contents($url) {
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

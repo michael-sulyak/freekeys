@@ -1,7 +1,7 @@
 <?php
 
 class UserMeta {	
-	public function add($arg) {
+	public static function add($arg) {
 		global $db, $me;
 
 		$user = $me->config('user');
@@ -16,7 +16,7 @@ class UserMeta {
 		$db->insert('usermeta', $data);
 	}
 
-	public function get($key, $id = '', $ip = '') {
+	public static function get($key, $id = '', $ip = '') {
 		global $db, $me;
 
 		$db->where('meta_key', $key);
@@ -36,7 +36,7 @@ class UserMeta {
 		return $db->get('usermeta');
 	}
 
-	public function delete($id) {
+	public static function delete($id) {
 		global $db;		
 		$db->where('id', $id);
 		$db->delete('usermeta');

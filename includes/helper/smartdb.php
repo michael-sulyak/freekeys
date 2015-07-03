@@ -1,7 +1,7 @@
 <?php
 
 class SmartDB {
-	public function processed($name, $table) {
+	public static function processed($name, $table) {
 		global $me;
 
 		$access_rights = $me->config('db_read_level');
@@ -18,13 +18,13 @@ class SmartDB {
 		return $result;
 	}
 
-	public function getOne($name) {
+	public static function getOne($name) {
 		global $db;
 		$query = $db->getOne($name);
 		return SmartDB::processed($name, $query);
 	}
 
-	public function get($name, $num) {
+	public static function get($name, $num) {
 		global $db;
 
 		$result = array();

@@ -1,7 +1,7 @@
 <?php
 
 class Mail {
-	public function send($arg) {
+	public static function send($arg) {
 		global $me;
 
 		$user = $me->config('user');

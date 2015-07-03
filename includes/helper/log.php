@@ -1,7 +1,7 @@
 <?php
 
 class Log {
-	public function add($text, $tag = 'unknown') {
+	public static function add($text, $tag = 'unknown') {
 		global $db;
 
 		$data = array(
@@ -14,14 +14,14 @@ class Log {
 		$db->insert('logs', $data);
 	}
 
-	public function get($key, $where = '') {
+	public static function get($key, $where = '') {
 		global $db;
 		$db->where('tag', $tag);
 		if ($where) $db->where($where);
 		return $db->get('logs');
 	}
 
-	public function getCount($tag, $arg = array()) {
+	public static function getCount($tag, $arg = array()) {
 		global $db;
 
 		if ($arg['last_time']) {
