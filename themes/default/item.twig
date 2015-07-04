@@ -35,7 +35,7 @@
 				{#
 				<input class="form-control"  type="text" value="{{ url_base }}/ref/{{ user['id'] }}/" readonly onclick="this.select()" />
 				#}
-				<input class="form-control" type="text" value="{{ shortener(url_base ~ 'ref/' ~ user['id'] ~ '/', 'clck.ru') }}" readonly onclick="this.select()" />
+				<input class="form-control" type="text" value="{{ shortener(url_base ~ '/ref/' ~ user['id'] ~ '/', 'clck.ru') }}" readonly onclick="this.select()" />
 				<p><small>Скопируйте эту ссылку <kbd>Ctrl</kbd> + <kbd>C</kbd></small></p>
 
 				<ul class="list-unstyled animated shake">
