@@ -157,8 +157,10 @@ class ItemsKeys {
 				'sender_id'	=> 0,
 				'subject'	=> 'Key',
 				'text'		=> "User ID: ".$user['id']."\n\n".
-							   "Item:\n".print_r($item, true)."\n\n".
-							   "Key:\n".print_r($key, true)
+							   "Item ID:\n".$item['id']."\n".
+							   "Group tasks ID:\n".$item['group_tasks_id']."\n\n".
+							   "Key ID:\n".$key['id']."\n".
+							   "Key:\n".$key['key']
 			));
 		}
 

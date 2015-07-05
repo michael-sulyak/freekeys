@@ -3,20 +3,32 @@
 
 {% block title %}{{ 'Messages'|t }}{% endblock %}
 {% block content %}
-	{{ form.panel_begin('List of messages'|t) }}		
-		{% set table_thread = ['ID'|t, 'Subject'|t, 'Text'|t] %}		
-		{% set table_attributes = ['striped'] %}
+	{% if get['action'] == 'view' %}
+		{{ form.panel_begin('Edit message'|t) }}
+			<form role="form" method="POST">
+				<input type="hidden" name="interface[message][delete][0][id]" value="{{ message['id'] }}">
+				{{ form.input('', message['subject'], 'text', 'Subject'|t) }}<br>
+				{{ form.text('', message['text'], 10, 'Text'|t) }}<br>
 
-		{{ form.table_begin(table_thread, table_attributes) }}
-			{% for item in messages %}
-				{% set table_date = [
-					item['id'],
-					item['subject'],
-					item['text']
-				] %}
+				{{ form.button('interface[message][delete][0][run]', 'Delete'|t, 'danger', 'lg') }}
+			</form>
+		{{ form.panel_end() }}	
+	{% elseif get['action'] == 'list' %}
+		{{ form.panel_begin('List of messages'|t) }}		
+			{% set table_thread = ['ID'|t, 'Subject'|t, ''] %}		
+			{% set table_attributes = ['striped'] %}
 
-				{{ form.table_tr(table_date) }}
-			{% endfor %}
-		{{ form.table_end() }}
-	{{ form.panel_end() }}
+			{{ form.table_begin(table_thread, table_attributes) }}
+				{% for item in messages %}
+					{% set table_date = [
+						item['id'],
+						item['subject'],
+						form.hyperlink('View'|t, '?do=messages&amp;action=view&amp;id=' ~ item['id'], none, none, true)
+					] %}
+
+					{{ form.table_tr(table_date) }}
+				{% endfor %}
+			{{ form.table_end() }}
+		{{ form.panel_end() }}
+	{% endif %}
 {% endblock %}

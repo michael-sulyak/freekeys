@@ -32,6 +32,17 @@
 			"full_name": 0,
 			"description": 0,
 			"name": 0
+		},
+
+		"messages": { 
+			"id": 0,
+			"user_id": 0,
+			"sender_id": 0,
+			"subject": 0,
+			"name": 0,
+			"text": 0,
+			"date": 0,
+			"fresh": 0
 		}
 	},
 	

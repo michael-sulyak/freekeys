@@ -98,11 +98,22 @@ if (!$me->config('auth', false) || !$me->level_check(5)) {
 	}
 } else {
 	switch ($_GET['do']) {
-		case 'messages':			
-			$messages = $me->run_interface('message', 'get_messages', array('user_id' => 0, 'num' => 50));
+		case 'messages':
+			switch ($_GET['action']) {
+				case 'list':
+					$messages = $me->run_interface('message', 'get_messages', array('user_id' => 0, 'num' => 500));
 
-			$tpl->add_variable('messages', $messages);
-			$me->set_config('theme_entry_point', 'messages.twig');
+					$tpl->add_variable('messages', $messages);
+					$me->set_config('theme_entry_point', 'messages.twig');
+				break;
+
+				case 'view':
+					$message = $me->run_interface('message', 'get', array('id' => $_GET['id']));
+
+					$tpl->add_variable('message', $message);
+					$me->set_config('theme_entry_point', 'messages.twig');
+				break;
+			}			
 			break;
 		
 		default:					
