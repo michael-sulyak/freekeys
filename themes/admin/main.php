@@ -17,7 +17,7 @@ $user = $me->config('user');
 
 if (!$me->config('auth', false) || !$me->level_check(5)) {	
 	$me->set_config('theme_entry_point', 'login.twig');
-} elseif ($_GET['do'] == 'items' && $_GET['action']) {
+} elseif ($_GET['do'] == 'items') {
 	switch ($_GET['action']) {
 		case 'add_item':
 		case 'edit_item':
@@ -97,8 +97,19 @@ if (!$me->config('auth', false) || !$me->level_check(5)) {
 			break;
 	}
 } else {
-	$tpl->add_variable('config', $me->get_config());	
-	$me->set_config('theme_entry_point', 'config.twig');
+	switch ($_GET['do']) {
+		case 'messages':			
+			$messages = $me->run_interface('message', 'get_messages', array('user_id' => 0, 'num' => 50));
+
+			$tpl->add_variable('messages', $messages);
+			$me->set_config('theme_entry_point', 'messages.twig');
+			break;
+		
+		default:					
+			$tpl->add_variable('config', $me->get_config());	
+			$me->set_config('theme_entry_point', 'config.twig');
+			break;
+	}
 }
 
 ?>

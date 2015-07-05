@@ -12,6 +12,9 @@ msgstr ""
 "Language: ru_RU\n"
 "X-Generator: Poedit 1.8\n"
 
+msgid "Configurations"
+msgstr "Настройки"
+
 msgid "Items"
 msgstr "Предметы"
 
@@ -54,6 +57,9 @@ msgstr "Добавить группу заданий"
 msgid "The list of groups of tasks"
 msgstr "Список групп заданий"
 
+msgid "Messages"
+msgstr "Сообщения"
+
 msgid "Creating a category"
 msgstr "Создание категории"
 
@@ -77,9 +83,6 @@ msgstr "Сохранить"
 
 msgid "Delete"
 msgstr "Удалить"
-
-msgid "Configurations"
-msgstr "Настройки"
 
 msgid "MySQL"
 msgstr "MySQL"
@@ -153,12 +156,6 @@ msgstr "Email администратора"
 msgid "Home URL"
 msgstr "Домашний адрес сайта"
 
-msgid "Home"
-msgstr "Главная"
-
-msgid "HOME"
-msgstr "ГЛАВНАЯ"
-
 msgid "Creating a item"
 msgstr "Создание категории"
 
@@ -215,6 +212,12 @@ msgstr "Имя"
 
 msgid "Remember Me"
 msgstr "Запомнить"
+
+msgid "List of messages"
+msgstr "Список сообщений"
+
+msgid "Text"
+msgstr "Текст"
 
 msgid "Creating a task"
 msgstr "Создание задания"

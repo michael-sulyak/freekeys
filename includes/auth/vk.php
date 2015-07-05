@@ -72,7 +72,7 @@ class AuthVk {
 		global $me;
 
 		$params = array(
-			'client_id'		=> $me->config('auth_vk_app_id'),
+			'client_id'		=> $me->config('auth_vk_app_id', ''),
 			'scope'			=> 'email',			
 			'redirect_uri'	=> $this->link,
 			'response_type'	=> 'code'

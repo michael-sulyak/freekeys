@@ -1,8 +1,8 @@
-<?
+<?php
 
 class Message {
 
-	public function add($arg) {
+	public static function add($arg) {
 		global $db, $me;
 		set_lang_name('auth', 'include');
 
@@ -28,13 +28,13 @@ class Message {
 
 	}
 
-	public function get_messages($arg) {
+	public static function get_messages($arg) {
 		global $db;
 		
-		$db->where('user_id', $user['user_id']);
+		$db->where('user_id', $arg['user_id']);
 		$db->orderBy('id', 'desc');
 		$query = $db->get('messages', $arg['num']);
-
+		
 		foreach ($query as $key => $value) {
 			$query[$key]['text'] = nl2br($value['text']);
 		}
