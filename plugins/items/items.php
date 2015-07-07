@@ -166,9 +166,11 @@ class Items {
 
 		if (!$query) {
 			$me->add_notification(__('Unknown error.'), 'warning');
+			return;
 		}
 
 		$db->where('date', time()+60*60, '>=');
+		$db->where('user_id', $id);
 		$count = $db->getValue('items_referrals', 'count(*)');
 
 		if ($count > $me->config('items_ref_limit', 10)) {
@@ -176,12 +178,14 @@ class Items {
 		}
 
 		if ($me->config('items_ref_cost', 0) > 0) {
+			$db->where('id', $id);
 			$query = $db->update('users', array(
 				'points' => $db->inc($me->config('items_ref_cost', 0))
 			));
 
 			if (!$query) {
 				$me->add_notification(__('Unknown error.'), 'warning');
+				return;
 			}
 		}
 

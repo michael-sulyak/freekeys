@@ -36,7 +36,7 @@ class ModularEngine {
 	function __construct() {
 		$this->set_config('start_time', microtime(true));
 		$this->set_config('project_name', 'FreeKeys CMS', true);
-		$this->set_config('project_version', '1.5.001', true);
+		$this->set_config('project_version', '1.5.002', true);
 		$this->set_config('project_author', 'expert_m', true);
 
 		$this->includes = array("mysql", "locale", "auth", "theme", "helper", "messages");
