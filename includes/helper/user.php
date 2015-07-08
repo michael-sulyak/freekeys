@@ -19,7 +19,7 @@ class User {
 		return false;
 	}
 
-	public static function ip() {
+	public static function IP() {
 		return $_SERVER["REMOTE_ADDR"];
 	}
 

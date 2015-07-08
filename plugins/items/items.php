@@ -215,11 +215,36 @@ $me->add_interface('items', 'shortener', array('Items', 'shortener'));
 
 function items_register() {
 	global $me;
+
+	if ($me->config('items_reg_points', 0) == 0)
+		return;
+
 	$user = $me->config('user');
-	$user['points'] = $me->config('items_reg_points', 0);
+	$user['points'] = $me->config('items_reg_points');
 	$me->set_config('user', $user);
 }
 
 $me->add_action('auth_register', 'items_register');
+
+function items_end_register() {
+	global $me, $db;
+
+	if ($me->config('items_ref_reg_cost', 0) == 0) {
+		return;
+	}
+
+	$db->where('ip', User::IP());
+	$db->orderBy('id', 'asc');
+	$query = $db->getOne('items_referrals');
+
+	if (!$query) {
+		return;
+	}
+
+	$db->where('id', $query['user_id']);
+	$db->update('users', array('points' => $db->inc($me->config('items_ref_reg_cost'))));
+}
+
+$me->add_action('auth_end_register', 'items_end_register');
 
 ?>

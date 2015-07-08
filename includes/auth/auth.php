@@ -108,7 +108,7 @@ class Auth {
 			return;
 		}
 
-		$count = Log::getCount('login_error', array('last_time' => 1200, 'ip' => User::ip()));
+		$count = Log::getCount('login_error', array('last_time' => 1200, 'ip' => User::IP()));
 		if ($count > $me->config('auth_attempts', 3)) {
 			$me->add_notification(_s('Account or IP banned until %s.', date('H:i:s, d.m.Y', time()+1200)), 'danger');
 			User::ban(1200);
@@ -201,6 +201,7 @@ class Auth {
 			$me->add_notification(__('Registration was successful.'), 'success');
 			$user['id'] = $query;
 			$this->auth_user($user);
+			$me->create_action('auth_end_register');
 		} else {			
 			$me->add_notification(__('Unknown error.'), 'danger');
 		}
