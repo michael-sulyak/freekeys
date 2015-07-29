@@ -209,9 +209,8 @@ class ItemsTasks {
 
 	public function verify_tasks($id) {
 		$group_tasks = ItemsTasks::get_group_tasks(array('id' => $id));
-
+		if (!$group_tasks) return true;
 		$group_tasks['list'] = json_decode($group_tasks['list'], true);
-
 		if (!$group_tasks['list']) return;
 
 		foreach ($group_tasks['list'] as $task_id) {

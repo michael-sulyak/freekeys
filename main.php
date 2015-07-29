@@ -7,17 +7,12 @@ Author: expert_m
 Author URI: http://nextable.ru/
 */
 
-// Constants
 define('ME', true);
 define('ME_VERSION', '0.2');
 
 define('HOME_DIR', str_replace('\\', '/', dirname(__FILE__)));
 define('PLUGINS_DIR', HOME_DIR.'/plugins');
 define('INCLUDES_DIR', HOME_DIR.'/includes');
-
-
-//define('HOME_URL', 'http://'.$_SERVER['SERVER_NAME'].((dirname($_SERVER['PHP_SELF']) == '/') ? '' : dirname($_SERVER['PHP_SELF'])));
-//define('MODULES_URL', HOME_URL.'/modules');
 
 header('Content-Type: text/html; charset=utf-8');
 session_start();
@@ -36,7 +31,7 @@ class ModularEngine {
 	function __construct() {
 		$this->set_config('start_time', microtime(true));
 		$this->set_config('project_name', 'FreeKeys CMS', true);
-		$this->set_config('project_version', '1.5.003', true);
+		$this->set_config('project_version', '1.5.004', true);
 		$this->set_config('project_author', 'expert_m', true);
 
 		$this->includes = array("mysql", "locale", "auth", "theme", "helper", "messages");
@@ -218,7 +213,7 @@ class ModularEngine {
 
 	public function fatal_error($message = '', $title = '', $args = array()) {
 		if ($this->error_handler) {
-			call_user_func_array($this->error_handler, array($message, $title, $args));
+			call_user_func_array($this->error_handler, array($message, $title, $args, $this->notifications));
 			return;
 		}
 

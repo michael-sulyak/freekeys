@@ -97,8 +97,13 @@ class Theme
 		return $this->values;
 	}
 
-	public function error_handler($message, $title, $args) {
-		exit($this->twig->render('error.twig', array('message' => $message, 'title' => $title, 'args' => $args)));		
+	public function error_handler($message, $title, $args, $notifications) {
+		exit($this->twig->render('error.twig', array(
+			'message' => $message,
+			'title' => $title,
+			'args' => $args,
+			'notifications' => $notifications
+		)));		
 	}
 
 	public function redirect($url = '') {
